@@ -15,7 +15,7 @@ export default function Login() {
     axios.post('/user/login', values).then(res => {
       localStorage.setItem('access_token', res.access_token)
       localStorage.setItem('refresh_token', res.refresh_token)
-      
+      localStorage.setItem('userInfo', JSON.stringify(res.data))
       toast.success('登录成功')
       navigate('/noteClass')
     })

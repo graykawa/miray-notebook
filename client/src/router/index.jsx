@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, useRoutes } from 'react-router'
 const Login = React.lazy(() => import('../pages/Login'))
 const NoteClass = React.lazy(() => import('../pages/NoteClass'))
 const Register = React.lazy(() => import('../pages/Register'))
+const NoteList = React.lazy(() => import('../pages/NoteList'))
 
 const routes = [
   {
@@ -22,6 +23,10 @@ const routes = [
   {
     path: '/register',
     element: <Register />
+  },
+  {
+    path: '/noteList',
+    element: <NoteList />
   }
 ]
 

@@ -1,10 +1,12 @@
 const Router = require('@koa/router')
 const router = new Router()
-const { userLogin } = require('../controllers/index.js')
+const { userLogin, userRegister,userFindByUsername } = require('../controllers/index.js')
 const { sign, verify, refreshVerify } = require('../utils/jwt.js')
+const { escape } = require('../utils/security.js')
 
 router.prefix('/user')  // 所有的路由都要以 /user 开头
 
+// 登录
 router.post('/login', async (ctx) => {
   // 1. 获取请求体中的账号密码
   // post 请求携带的参数都在请求体中
@@ -49,6 +51,45 @@ router.post('/login', async (ctx) => {
 
 })
 
+// 注册
+router.post('/register', async (ctx) => {
+  let { username, password, nickname } = ctx.request.body
+  // 防sql注入
+  username = escape(username)
+  password = escape(password)
+  nickname = escape(nickname)
+  try {
+    const query = await userFindByUsername(username)
+    if(query.length){
+      ctx.body = {
+        code: '0',
+        msg: '账号已存在',
+        data: {}
+      }
+      return
+    }
+    const insertResult = await userRegister(username, password, nickname)
+    if(insertResult.affectedRows){
+      ctx.body = {
+        code: '1',
+        msg: '注册成功',
+        data: {}
+      }
+    }else{
+      ctx.body = {
+        code: '0',
+        msg: '注册失败',
+        data: {}
+      }
+    }
+  } catch (error) {
+    ctx.body = {
+      code: '-1',
+      msg: '服务器异常',
+      data: error
+    }
+  }
+})
 
 // 刷新 token
 router.post('/refresh', (ctx) => {

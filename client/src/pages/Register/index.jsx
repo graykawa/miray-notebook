@@ -3,27 +3,25 @@ import styles from './index.module.less'
 import { Button, Input, Form } from 'react-vant'
 import axios from '../../api'
 import toast from 'react-hot-toast';
-import { useNavigate,useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 
-export default function Login() {
+export default function Register() {
   const [form] = Form.useForm()
 
   const navigate = useNavigate();
-  const {state} = useLocation();
 
   const onFinish = values => {
-    axios.post('/user/login', values).then(res => {
-      localStorage.setItem('access_token', res.access_token)
-      localStorage.setItem('refresh_token', res.refresh_token)
-      
-      toast.success('登录成功')
-      navigate('/noteClass')
+    axios.post('/user/register', values).then(res => {
+      toast.success('注册成功')
+      setTimeout(() => {
+        navigate('/login', { state: { username: values.username, password: values.password } })
+      }, 1000)
     })
   }
 
   return (
     <div className={styles.login}>
-      <h1 className={styles.title}>登录</h1>
+      <h1 className={styles.title}>注册</h1>
 
       <div className={styles['login-wrapper']}>
         <div className={styles.avatar}>
@@ -35,8 +33,8 @@ export default function Login() {
           onFinish={onFinish}
           footer={
             <div style={{ margin: '16px 16px 0' }}>
-              <Button round nativeType='submit' type='primary' block>
-                登录
+              <Button round nativeType='submit' type='info' block>
+                注册
               </Button>
             </div>
           }
@@ -46,7 +44,6 @@ export default function Login() {
             name='username'
             label='用户名'
             labelWidth={50}
-            initialValue={state?.username}
           >
             <Input placeholder='请输入用户名' />
           </Form.Item>
@@ -55,15 +52,22 @@ export default function Login() {
             name='password'
             label='密码'
             labelWidth={50}
-            initialValue={state?.password}
           >
             <Input placeholder='请输入密码' />
+          </Form.Item>
+          <Form.Item
+            rules={[{ required: true, message: '请填写昵称' }]}
+            name='nickname'
+            label='昵称'
+            labelWidth={50}
+          >
+            <Input placeholder='请输入昵称' />
           </Form.Item>
         </Form>
       </div>
 
-      <p className={styles['login-tip']} onClick={() => navigate('/register')}>没有账号？点这里注册</p>
-      
+      <p className={styles['login-tip']} onClick={() => navigate('/login')}>已有账号？点这里登录</p>
+
     </div>
   )
 }

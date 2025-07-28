@@ -35,8 +35,23 @@ const userLogin = (username, password) => {
   return allServices.query(_sql)
 }
 
+//根据username查询账号是否存在
+const userFindByUsername = (username) => {
+  let _sql = `select * from user where username='${username}';`
+  return allServices.query(_sql)
+}
+
+// 注册要执行函数
+const userRegister = (username, password, nickname) => {
+  createTime = new Date().toLocaleString()
+  let _sql = `insert into user (username, password, nickname,create_time) values ('${username}', '${password}', '${nickname}','${createTime}');`
+  return allServices.query(_sql)
+}
+
 
 module.exports = {
-  userLogin
+  userLogin,
+  userFindByUsername,
+  userRegister
 }
 

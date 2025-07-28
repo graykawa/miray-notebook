@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, useRoutes } from 'react-router'
 // 路由懒加载
 const Login = React.lazy(() => import('../pages/Login'))
 const NoteClass = React.lazy(() => import('../pages/NoteClass'))
+const Register = React.lazy(() => import('../pages/Register'))
 
 const routes = [
   {
@@ -17,6 +18,10 @@ const routes = [
   {
     path: '/noteClass',
     element: <NoteClass />
+  },
+  {
+    path: '/register',
+    element: <Register />
   }
 ]
 

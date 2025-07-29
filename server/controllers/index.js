@@ -48,10 +48,24 @@ const userRegister = (username, password, nickname) => {
   return allServices.query(_sql)
 }
 
+// 根据类型查找日记列表数据
+const findNoteListByType = (note_type, userId) => {
+  let _sql = `select * from note where note_type='${note_type}' and user_id='${userId}';`
+  return allServices.query(_sql)
+}
+
+//根据笔记id获取当前笔记
+const findNoteDetailById = (id) => {
+  let _sql = `select * from note where id='${id}';`
+  return allServices.query(_sql)
+}
+
 
 module.exports = {
   userLogin,
   userFindByUsername,
-  userRegister
+  userRegister,
+  findNoteListByType,
+  findNoteDetailById
 }
 

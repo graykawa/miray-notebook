@@ -15,6 +15,8 @@ function verify() {
         const decoded = jwt.verify(token, '666')
         // console.log(decoded);
         if (decoded.id) { // 合法
+          ctx.userId = decoded.id
+          ctx.username = decoded.username
           await next()
         }
       } catch (error) {

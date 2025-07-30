@@ -2,11 +2,12 @@ import React from 'react'
 import styles from './index.module.less'
 import { ArrowLeft } from '@react-vant/icons';
 import { useState,useEffect } from 'react';
-import { useSearchParams } from 'react-router'
+import { useSearchParams,useNavigate } from 'react-router'
 import axios from '@/api'
 
 
 export default function NoteDetail() {
+  const navigator = useNavigate()
   const [searchParams] = useSearchParams()
   const [curNote,setCurNote] = useState({})
   const noteId = searchParams.get('id')
@@ -20,7 +21,7 @@ export default function NoteDetail() {
 
   return (
     <div className={styles['note-detail']}>
-      <div className={styles['back']}>
+      <div className={styles['back']} onClick={() => navigator(-1)}>
         <ArrowLeft fontSize={24}  />
       </div>
 
@@ -33,7 +34,7 @@ export default function NoteDetail() {
           <span className={styles['author']}>{curNote.username}</span>
         </div>
         <p className={styles['title']}>{curNote.note_title}</p>
-        <div className={styles['content']}>{curNote.note_content}</div>
+        <div className={styles['content']} dangerouslySetInnerHTML={{__html:curNote.note_content}}></div>
       </div>
     </div>
   )

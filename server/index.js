@@ -6,8 +6,13 @@ const cors = require('@koa/cors')
 const { bodyParser } = require('@koa/bodyparser')
 
 app.use(cors())  // 告诉浏览器，允许前端跨域请求我
-app.use(bodyParser());  // 辅助 koa 解析请求体中的数据
-
+// app.use(bodyParser());  // 辅助 koa 解析请求体中的数据
+app.use(bodyParser({
+  jsonLimit: '50mb',    // JSON请求体限制50MB
+  formLimit: '50mb',    // 表单请求体限制50MB
+  textLimit: '50mb',    // 文本请求体限制50MB
+  enableTypes: ['json', 'form', 'text']
+}));
 
 
 // app.use(async (ctx) => {

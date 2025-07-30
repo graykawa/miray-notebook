@@ -60,12 +60,21 @@ const findNoteDetailById = (id) => {
   return allServices.query(_sql)
 }
 
+// 发布日记
+const publishNote = (data) => {
+  updateTime = new Date().toLocaleString()
+  createTime = new Date().toLocaleString()
+  let _sql = `insert into note (note_title, note_content, note_img, note_type, user_id, update_time, create_time) values ('${data.note_title}', '${data.note_content}', '${data.note_img}', '${data.note_type}', '${data.user_id}', '${updateTime}', '${createTime}');`
+  return allServices.query(_sql)
+}
+
 
 module.exports = {
   userLogin,
   userFindByUsername,
   userRegister,
   findNoteListByType,
-  findNoteDetailById
+  findNoteDetailById,
+  publishNote
 }
 
